@@ -2,27 +2,128 @@
 	<head>
         	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         	<link rel="stylesheet" href="app.css" />
-		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    		<link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    		<link href="css/sb-admin.css" rel="stylesheet">
 	</head>
 
 	<body>
-		<div id="header">
-			<div class="container">
-				SDN-RYU
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      			<a class="navbar-brand" href="#">SDN-RYU</a>
+      			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        			<span class="navbar-toggler-icon"></span>
+      			</button>
+      			<div class="collapse navbar-collapse" id="navbarResponsive">
+       				<ul class="navbar-nav navbar-sidenav">
+       					<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Topo">         						<a class="nav-link" href="#">
+              						<i class="fa fa-fw fa-dashboard"></i>
+              						<span class="nav-link-text">網路拓樸</span>
+            					</a>
+          				</li>
+          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+            					<a class="nav-link" href="#">
+              						<i class="fa fa-fw fa-area-chart"></i>
+             						<span class="nav-link-text">流量列表</span>
+            					</a>
+          				</li>
+          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+            					<a class="nav-link" href="#">
+              						<i class="fa fa-fw fa-table"></i>
+              						<span class="nav-link-text">Tables</span>
+           					</a>
+          				</li>
+          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+            					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents">
+              						<i class="fa fa-fw fa-wrench"></i>
+              						<span class="nav-link-text">Components</span>
+            					</a>
+           					<ul class="sidenav-second-level collapse" id="collapseComponents">
+              						<li>
+                						<a href="#">Static Navigation</a>
+              						</li>
+              						<li>
+                						<a href="#">Custom Card Examples</a>
+              						</li>
+              						<li>
+                						<a href="#">Blank Page</a>
+              						</li>
+              						<li>
+                						<a href="#">Login Page</a>
+              						</li>
+      						</ul>
+      					</li>
+        				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+            					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti">
+              						<i class="fa fa-fw fa-sitemap"></i>
+              						<span class="nav-link-text">Menu Levels</span>
+            					</a>
+           					<ul class="sidenav-second-level collapse" id="collapseMulti">
+              						<li>
+                						<a href="#">Second Level Item</a>
+              						</li>
+              						<li>
+               							<a href="#">Second Level Item</a>
+              						</li>
+              						<li>
+                						<a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+                						<ul class="sidenav-third-level collapse" id="collapseMulti2">
+                  							<li>
+                    								<a href="#">Third Level Item</a>
+                  							</li>
+                  							<li>
+                    								<a href="#">Third Level Item</a>
+                  							</li>
+                						</ul>
+              						</li>
+            					</ul>
+         	 			</li>
+        			</ul>
+        			<ul class="navbar-nav sidenav-toggler">
+          				<li class="nav-item">
+            					<a class="nav-link text-center" id="sidenavToggler">
+             						<i class="fa fa-fw fa-angle-left"></i>
+            					</a>
+          				</li>
+        			</ul>
+      			</div>
+   	 	</nav>
+
+		<div class="content-wrapper py-3">
+      			<div class="container-fluid">
+				<div style="height: 70px;"></div>
+					<div class="card mb-3">
+          					<div class="card-header">
+							<i class="fa fa-fw fa-dashboard"></i>
+							網路拓樸
+          					</div>
+          					<div class="card-body">
+							<div id="topology" style="height: 600px;"></div>
+          					</div>
+						<div class="card-footer small text-muted">
+                                                </div>
+        				</div>
+				</div>
 			</div>
 		</div>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-9 col-md-10" id="content-body">內容</div>
-				<div class="col-lg-3 col-md-2" id="content-body">側邊欄</div>
-			</div>
-		</div>
-	        <div id="topology" style="height: 900px;"></div>
-        	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+		<!-- d3.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+
+		<!-- Bootstrap core JavaScript -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+    		<script src="vendor/popper/popper.min.js"></script>
+    		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    		<!-- Plugin JavaScript -->
+    		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    		<script src="vendor/chart.js/Chart.min.js"></script>
+    		<script src="vendor/datatables/jquery.dataTables.js"></script>
+    		<script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+		
+    		<!-- Custom scripts for this template -->
+    		<script src="js/sb-admin.min.js"></script>
 		<script src="topo.js"></script>
 	</body>
 </html>

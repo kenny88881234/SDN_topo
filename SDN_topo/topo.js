@@ -2,11 +2,11 @@
 
 var topo_view = $('#topology');
 var width = topo_view.width();
-var height = topo_view.height() - 60;
+var height = topo_view.height();
 var allSVGElem = {};
 var svg = d3.select('#topology').append("svg")
                    .attr("width", width)
-                   .attr("height", height)
+                   .attr("height", height);
 var d3_nodes = [],
     d3_links = [],
     port_data = [];
@@ -254,7 +254,7 @@ d3.json('monitor_port_data.json', loadMonitorData);
 d3.json('topo_data.json', loadData);
 
 function myrefresh()
- {
+{
       window.location.reload();
- }
- setTimeout('myrefresh()',30000);
+}
+setTimeout('myrefresh()',30000);
