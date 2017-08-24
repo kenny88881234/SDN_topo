@@ -4,7 +4,7 @@ var topo_view = $('#topology');
 var width = topo_view.width();
 var height = topo_view.height();
 var allSVGElem = {};
-var svg = d3.select('#topology').append("svg")
+var svg = d3.select('#topology')
                    .attr("width", width)
                    .attr("height", height);
 var d3_nodes = [],

@@ -1,7 +1,6 @@
 <html>
 	<head>
         	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        	<link rel="stylesheet" href="app.css" />
 		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     		<link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
@@ -16,13 +15,13 @@
       			</button>
       			<div class="collapse navbar-collapse" id="navbarResponsive">
        				<ul class="navbar-nav navbar-sidenav">
-       					<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="網路拓樸">
+       					<li class="nav-item" data-toggle="tooltip" data-placement="right" title="網路拓樸">
 						<a class="nav-link" href="index.html">
               						<i class="fa fa-fw fa-dashboard"></i>
               						<span class="nav-link-text">網路拓樸</span>
             					</a>
           				</li>
-          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="流量列表">
+          				<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="流量列表">
             					<a class="nav-link" href="flowtable.html">
               						<i class="fa fa-fw fa-area-chart"></i>
              						<span class="nav-link-text">流量列表</span>
@@ -37,20 +36,20 @@
           				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
             					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents">
               						<i class="fa fa-fw fa-wrench"></i>
-              						<span class="nav-link-text">Kshih</span>
+              						<span class="nav-link-text">Components</span>
             					</a>
            					<ul class="sidenav-second-level collapse" id="collapseComponents">
               						<li>
-                						<a href="https://www.facebook.com/yifeno">FB</a>
+                						<a href="#">Static Navigation</a>
               						</li>
               						<li>
-                						<a href="http://www.thepicta.com/user/kshihh/398019045">IG</a>
+                						<a href="#">Custom Card Examples</a>
               						</li>
               						<li>
-                						<a href="http://kshih.logdown.com/">Blog</a>
+                						<a href="#">Blank Page</a>
               						</li>
               						<li>
-                						<a href="#">約嗎0958616569</a>
+                						<a href="#">Login Page</a>
               						</li>
       						</ul>
       					</li>
@@ -95,11 +94,14 @@
 				<div style="height: 70px;"></div>
 					<div class="card mb-3">
           					<div class="card-header">
-							<i class="fa fa-fw fa-dashboard"></i>
-							網路拓樸
+							<i class="fa fa-fw fa-area-chart"></i>
+							流量列表
           					</div>
           					<div class="card-body">
-							<svg id="topology" style="height: 600px;width: 100%;"></svg>
+							<div style="width: 600px; height: 400px; margin: 0 auto">
+    								<div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
+							</div>
+							<!--<svg id="flow" style="height: 600px;width: 100%;"></svg>-->
           					</div>
 						<div class="card-footer small text-muted">
                                                 </div>
@@ -107,6 +109,10 @@
 				</div>
 			</div>
 		</div>
+
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
+		<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
 		<!-- d3.js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
@@ -125,6 +131,6 @@
 		
     		<!-- Custom scripts for this template -->
     		<script src="js/sb-admin.min.js"></script>
-		<script src="topo.js"></script>
+		<script src="speed.js"></script>
 	</body>
 </html>
