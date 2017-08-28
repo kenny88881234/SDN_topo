@@ -250,11 +250,9 @@ function loadData(err, data) {
 	    .call(tip);
 }
 
-d3.json('monitor_port_data.json', loadMonitorData);
-d3.json('topo_data.json', loadData);
-
 function myrefresh()
 {
-      window.location.reload();
+    d3.json('monitor_port_data.json', loadMonitorData);
+    d3.json('topo_data.json', loadData);
 }
 setTimeout('myrefresh()',30000);
