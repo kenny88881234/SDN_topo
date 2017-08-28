@@ -252,7 +252,8 @@ function loadData(err, data) {
 
 function myrefresh()
 {
-    d3.json('monitor_port_data.json', loadMonitorData);
-    d3.json('topo_data.json', loadData);
+    window.location.reload();
 }
+d3.json('monitor_port_data.json', loadMonitorData);
+d3.json('topo_data.json', loadData);
 setTimeout('myrefresh()',30000);
