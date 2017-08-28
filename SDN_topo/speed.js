@@ -1,10 +1,5 @@
 var data = [6];
 var i;
-$.getJSON("monitor_port_data.json", function( json ) {
-    for(i=0;i<json.length;i++) {
-	data[i] = json[i];
-    }    
-});
 
 var gaugeOptions = {
 
@@ -61,12 +56,12 @@ var gaugeOptions = {
 };
 
 // The speed gauge
-var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+var chartSpeed_2 = Highcharts.chart('container-speed2', Highcharts.merge(gaugeOptions, {
     yAxis: {
         min: 0,
-        max: 20000000,
+        max: 10,
         title: {
-            text: 'Speed'
+            text: 'Speed2'
         }
     },
 
@@ -76,10 +71,10 @@ var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptio
 
     series: [{
         name: 'Speed',
-        data: [80],
+        data: [0],
         dataLabels: {
             format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.3f}</span><br/>' +
                    '<span style="font-size:12px;color:silver">Mb/sec</span></div>'
         },
         tooltip: {
@@ -89,17 +84,107 @@ var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptio
 
 }));
 
-// Bring life to the dials
+var chartSpeed_3 = Highcharts.chart('container-speed3', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 10,
+        title: {
+            text: 'Speed3'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Speed',
+        data: [0],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.3f}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">Mb/sec</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' Mb/sec'
+        }
+    }]
+
+}));
+
+var chartSpeed_4 = Highcharts.chart('container-speed4', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 10,
+        title: {
+            text: 'Speed4'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Speed',
+        data: [0],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.3f}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">Mb/sec</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' Mb/sec'
+        }
+    }]
+
+}));
+
+var chartSpeed_wifi = Highcharts.chart('container-speedwifi', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 10,
+        title: {
+            text: 'Speedwifi'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Speed',
+        data: [0],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.3f}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">Mb/sec</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' Mb/sec'
+        }
+    }]
+
+}));
+
 setInterval(function () {
     // Speed
+    $.getJSON("monitor_port_data.json", function( json ) {
+        for(i=0;i<json.length;i++) {
+            data[i] = json[i];
+        }
+    });
+    console.log(data[2].tx_flow);
+
     var point,
         newVal,
         inc;
 
-    if (chartSpeed) {
-        point = chartSpeed.series[0].points[0];
-        inc = Number(data[2].tx_flow);
-        newVal = point.y + inc;
+    if (chartSpeed_2) {
+        point = chartSpeed_2.series[0].points[0];
+        inc = Number(data[1].tx_flow)/1000000;
+        newVal = inc;
 
         if (newVal < 0 || newVal > 20000000) {
             newVal = point.y - inc;
@@ -108,5 +193,40 @@ setInterval(function () {
         point.update(newVal);
     }
 
-}, 2000);
-//setTimeout('myrefresh()',30000);
+    if (chartSpeed_3) {
+        point = chartSpeed_3.series[0].points[0];
+        inc = Number(data[2].tx_flow)/1000000;
+        newVal = inc;
+
+        if (newVal < 0 || newVal > 20000000) {
+            newVal = point.y - inc;
+        }
+
+        point.update(newVal);
+    }
+
+    if (chartSpeed_4) {
+        point = chartSpeed_4.series[0].points[0];
+        inc = Number(data[3].tx_flow)/1000000;
+        newVal = inc;
+
+        if (newVal < 0 || newVal > 20000000) {
+            newVal = point.y - inc;
+        }
+
+        point.update(newVal);
+    }
+
+    if (chartSpeed_wifi) {
+        point = chartSpeed_wifi.series[0].points[0];
+        inc = Number(data[5].tx_flow)/1000000;
+        newVal = inc;
+
+        if (newVal < 0 || newVal > 20000000) {
+            newVal = point.y - inc;
+        }
+
+        point.update(newVal);
+    }
+
+}, 1000);
