@@ -61,7 +61,7 @@ var chartSpeed_2 = Highcharts.chart('container-speed2', Highcharts.merge(gaugeOp
         min: 0,
         max: 10,
         title: {
-            text: 'Speed2'
+            text: 'Port1'
         }
     },
 
@@ -89,7 +89,7 @@ var chartSpeed_3 = Highcharts.chart('container-speed3', Highcharts.merge(gaugeOp
         min: 0,
         max: 10,
         title: {
-            text: 'Speed3'
+            text: 'Port2'
         }
     },
 
@@ -117,7 +117,7 @@ var chartSpeed_4 = Highcharts.chart('container-speed4', Highcharts.merge(gaugeOp
         min: 0,
         max: 10,
         title: {
-            text: 'Speed4'
+            text: 'Port3'
         }
     },
 
@@ -145,7 +145,7 @@ var chartSpeed_wifi = Highcharts.chart('container-speedwifi', Highcharts.merge(g
         min: 0,
         max: 10,
         title: {
-            text: 'Speedwifi'
+            text: 'Wifi'
         }
     },
 
@@ -183,11 +183,11 @@ setInterval(function () {
 
     if (chartSpeed_2) {
         point = chartSpeed_2.series[0].points[0];
-        inc = Number(data[1].tx_flow)/1000000;
+        inc = (Number(data[1].tx_flow) + Number(data[1].rx_flow))/1000000;
         newVal = inc;
 
-        if (newVal < 0 || newVal > 20000000) {
-            newVal = point.y - inc;
+        if (newVal < 0 || newVal > 20) {
+            newVal = 0;
         }
 
         point.update(newVal);
@@ -195,11 +195,11 @@ setInterval(function () {
 
     if (chartSpeed_3) {
         point = chartSpeed_3.series[0].points[0];
-        inc = Number(data[2].tx_flow)/1000000;
+        inc = (Number(data[2].tx_flow) + Number(data[2].rx_flow))/1000000;
         newVal = inc;
 
-        if (newVal < 0 || newVal > 20000000) {
-            newVal = point.y - inc;
+        if (newVal < 0 || newVal > 20) {
+            newVal = 0;
         }
 
         point.update(newVal);
@@ -207,11 +207,11 @@ setInterval(function () {
 
     if (chartSpeed_4) {
         point = chartSpeed_4.series[0].points[0];
-        inc = Number(data[3].tx_flow)/1000000;
+        inc = (Number(data[3].tx_flow) + Number(data[3].rx_flow))/1000000;
         newVal = inc;
 
-        if (newVal < 0 || newVal > 20000000) {
-            newVal = point.y - inc;
+        if (newVal < 0 || newVal > 20) {
+            newVal = 0;
         }
 
         point.update(newVal);
@@ -219,14 +219,14 @@ setInterval(function () {
 
     if (chartSpeed_wifi) {
         point = chartSpeed_wifi.series[0].points[0];
-        inc = Number(data[5].tx_flow)/1000000;
+        inc = (Number(data[4].tx_flow) + Number(data[4].rx_flow))/1000000;
         newVal = inc;
 
-        if (newVal < 0 || newVal > 20000000) {
-            newVal = point.y - inc;
+        if (newVal < 0 || newVal > 20) {
+            newVal = 0;
         }
 
         point.update(newVal);
     }
 
-}, 1000);
+}, 5000);
