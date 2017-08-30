@@ -252,8 +252,35 @@ function loadData(err, data) {
 
 function myrefresh()
 {
-    window.location.reload();
+    $(".topo").load(location.href + " .topo");
+    topo_view = $('#topology');
+    width = topo_view.width();
+    height = topo_view.height();
+    force = d3.layout.force()
+              .gravity(0.4)
+              .charge(-3000)
+              .linkDistance(function (d) {
+                  // XXX: I can't change link distance.....
+                  if(d === 'c') {
+                      return 100;
+                  } else {
+                      return 100;
+                  }
+              })
+              .linkStrength(function (d) {
+                  // XXX: no use?
+                  if(d === 'c') {
+                      return 1.5;
+                  } else {
+                      return 1.5;
+                  }
+              })
+              .friction(0.7)
+              .theta(0.3)
+              .size([width, height]);
+    d3.json('monitor_port_data.json', loadMonitorData);
+    d3.json('topo_data.json', loadData);
 }
 d3.json('monitor_port_data.json', loadMonitorData);
 d3.json('topo_data.json', loadData);
-setTimeout('myrefresh()',30000);
+setInterval('myrefresh()',5000);
