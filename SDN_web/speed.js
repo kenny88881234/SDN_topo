@@ -229,4 +229,4 @@ setInterval(function () {
         point.update(newVal);
     }
 
-}, 5000);
+}, 2000);
