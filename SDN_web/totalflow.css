@@ -1,0 +1,22 @@
+path {
+	stroke: DodgerBlue;
+	stroke-width: 1;
+	fill: none;
+}
+.axis {
+	font-size: 11px;
+	fill: gray;
+}
+.x.axis line {
+  stroke: lightgrey;
+}
+.x.axis .minor {
+  stroke-opacity: .5;
+}
+.x.axis path {
+  stroke: #fafafa;
+}
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: lightgrey;
+}
