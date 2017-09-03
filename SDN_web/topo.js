@@ -283,4 +283,4 @@ function myrefresh()
 }
 d3.json('monitor_port_data.json', loadMonitorData);
 d3.json('topo_data.json', loadData);
-setInterval('myrefresh()',5000);
+setInterval('myrefresh()',30000);
