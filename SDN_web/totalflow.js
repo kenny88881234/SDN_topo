@@ -1,5 +1,5 @@
 var margin = {top: 60, right: 40, bottom: 50, left: 60};
-var w = 580 ; // 寬
+var w = 500 ; // 寬
 var h = 300 ; // 高
 var i,j,k;
 var color = d3.scale.category10();;
@@ -22,9 +22,16 @@ xmlhttp.onreadystatechange = function() {
 	    }
 	}
 	var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
-	    for(var i=0;i<data.length;i++) {
+	    for(i=0;i<data.length;i++) {
 		    dataset[data[i].dpid][data[i].port_no].push({"time" : Number(parseDate(data[i].time)), "num" : (Number(data[i].tx_flow) + Number(data[i].rx_flow))/1000000000});
 	    }
+	for(i=0;i<5;i++) {
+            for(j=0;j<5;j++) {
+		if(dataset[i][j][0] != null) {
+		    document.getElementById("port" + j).innerHTML = "<font color = " + color(j) + ">" + dataset[i][j][dataset[i][j].length-1].num.toFixed(3) + " G" + "</font>"
+		}
+	    }
+	}
 	console.log(dataset);
 	var Xmin, Xmax, Ymax;
 	var temp_time = [], temp_num = [];
