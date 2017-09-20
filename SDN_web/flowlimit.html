@@ -1,10 +1,52 @@
 <html>
 	<head>
         	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="totalflow.css" />
 		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     		<link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     		<link href="css/sb-admin.css" rel="stylesheet">
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+　　		<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+　　		<meta name="ProgId" content="FrontPage.Editor.Document">
+　　		<style>
+　　			.a3{width:30;border:0;text-align:center}
+　　		</style>
+　　		<script>
+			function mask(obj){
+　　				obj.value=obj.value.replace(/[^\d]/g,'')
+　　				key1=event.keyCode
+　　				if (key1==37 || key1==39)
+　　				{ 
+					obj.blur();
+　　					nextip=parseInt(obj.name.substr(2,1))
+　　					nextip=key1==37?nextip-1:nextip+1;
+　　					nextip=nextip>=5?1:nextip
+　　					nextip=nextip<=0?4:nextip
+　　					eval("ip"+nextip+".focus()")
+　　				} 
+　　				if(obj.value.length>=3) 
+　　					if(parseInt(obj.value)>=256 || parseInt(obj.value)<=0)
+　　					{
+　　						alert(parseInt(obj.value)+"IP地址錯誤！")
+　　						obj.value=""
+　　						obj.focus()
+　　						return false;
+　　					}
+　　					else 
+　　					{ 
+						obj.blur();
+　　						nextip=parseInt(obj.name.substr(2,1))+1
+　　						nextip=nextip>=5?1:nextip
+　　						nextip=nextip<=0?4:nextip
+						eval("ip"+nextip+".focus()")
+　　					}
+　　			}
+　　			function mask_c(obj)
+			{
+				clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))
+　　			}
+		</script>
 	</head>
 
 	<body>
@@ -21,13 +63,13 @@
               						<span class="nav-link-text">網路拓樸</span>
             					</a>
           				</li>
-          				<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="流速表">
+          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="流速表">
             					<a class="nav-link" href="flowtable.html">
 							<i class="fa fa-fw fa-dashboard"></i>
              						<span class="nav-link-text">流速表</span>
             					</a>
           				</li>
-          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="總流量列表">
+          				<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="總流量列表">
             					<a class="nav-link" href="totalflow.html">
 							<i class="fa fa-fw fa-area-chart"></i>
               						<span class="nav-link-text">總流量列表</span>
@@ -94,15 +136,26 @@
 				<div style="height: 70px;"></div>
 					<div class="card mb-3">
           					<div class="card-header">
-							<i class="fa fa-fw fa-dashboard"></i>
-							流速表
+							<i class="fa fa-fw fa-wrench"></i>
+							控制流速
           					</div>
           					<div class="card-body">
-							<div style="width: 600px; height: 400px; margin: 0 auto">
-    								<div id="container-speed2" style="width: 300px; height: 200px; float: left"></div>
-								<div id="container-speed3" style="width: 300px; height: 200px; float: left"></div>
-								<div id="container-speed4" style="width: 300px; height: 200px; float: left"></div>
-								<div id="container-speedwifi" style="width: 300px; height: 200px; float: left"></div>
+							<div class="input-group multi-control-group col-md-7">
+								<form class="bs-example bs-example-form" role="form">
+									<div class="input-group input-group-lg">
+										<span class="input-group-addon">IP</span>
+										<input type=text class="form-control" name=ip1 maxlength=3 onkeyup="mask(this)" onbeforepaste=mask_c()>
+										<span class="input-group-addon"> . </span>
+										<input type=text class="form-control" name=ip2 maxlength=3 onkeyup="mask(this)" onbeforepaste=mask_c()>
+										<span class="input-group-addon"> . </span>
+										<input type=text class="form-control" name=ip3 maxlength=3 onkeyup="mask(this)" onbeforepaste=mask_c()>
+										<span class="input-group-addon"> . </span>
+										<input type=text class="form-control" name=ip4 maxlength=3 onkeyup="mask(this)" onbeforepaste=mask_c()>
+										<span class="input-group-btn"> 
+                         								<input class="btn btn-primary" type="submit" value="Ok"></input>
+										</span>
+									</div>
+								</form>
 							</div>
           					</div>
 						<div class="card-footer small text-muted">
@@ -111,10 +164,6 @@
 				</div>
 			</div>
 		</div>
-
-		<script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/highcharts-more.js"></script>
-		<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
 		<!-- d3.js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
@@ -133,6 +182,5 @@
 		
     		<!-- Custom scripts for this template -->
     		<script src="js/sb-admin.min.js"></script>
-		<script src="speed.js"></script>
 	</body>
 </html>
