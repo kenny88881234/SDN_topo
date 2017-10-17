@@ -141,7 +141,7 @@
           					</div>
           					<div class="card-body">
 							<div class="input-group multi-control-group col-md-7">
-								<form class="bs-example bs-example-form" role="form">
+								<form class="bs-example bs-example-form" role="form" action="flowlimit.php" method="get">
 									<div class="input-group input-group-lg">
 										<span class="input-group-addon">IP</span>
 										<input type=text class="form-control" name=ip1 maxlength=3 onkeyup="mask(this)" onbeforepaste=mask_c()>
@@ -152,18 +152,19 @@
 										<span class="input-group-addon"> . </span>
 										<input type=text class="form-control" name=ip4 maxlength=3 onkeyup="mask(this)" onbeforepaste=mask_c()>
 										<span class="input-group-btn">
-                         								<input class="btn btn-primary" type="submit" value="Ok">
+                         								<input class="btn btn-primary" type="submit" value="Ok" onclick="processFormData();">
 										</span>
 									</div>
 									<div style="height: 20px;"></div>
 									<div class="input-group input-group-lg">
-									<select name="select" class="form-control-sm col-md-3">
-                                                                                <option value=0>12MB</option>
-                                                                                <option value=1>8MB</option>
-                                                                                <option value=2>斷線</option>
-                                                                        </select>
-</div>
+										<select name="select" class="form-control-sm col-md-3">
+                                                                                	<option value=1>12MB</option>
+                                                                                	<option value=2>8MB</option>
+                                                                                	<option value=3>斷線</option>
+                                                                        	</select>
+									</div>
 								</form>
+								<iframe id = "id_iframe" name = "nm_iframe" style = "display:none;" ></iframe>
 							</div>
           					</div>
 						<div class="card-footer small text-muted">
@@ -182,7 +183,6 @@
     		<script src="vendor/popper/popper.min.js"></script>
     		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
 
     		<!-- Plugin JavaScript -->
     		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -192,5 +192,7 @@
 		
     		<!-- Custom scripts for this template -->
     		<script src="js/sb-admin.min.js"></script>
+
+		<script src="flowlimit.js"></script>
 	</body>
 </html>
