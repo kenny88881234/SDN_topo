@@ -1,11 +1,17 @@
 <html>
 	<head>
         	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        	<link rel="stylesheet" href="app.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     		<link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     		<link href="css/sb-admin.css" rel="stylesheet">
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+　　		<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+　　		<meta name="ProgId" content="FrontPage.Editor.Document">
+　　		<style>
+　　			.a3{width:30;border:0;text-align:center}
+　　		</style>
 	</head>
 
 	<body>
@@ -16,7 +22,7 @@
       			</button>
       			<div class="collapse navbar-collapse" id="navbarResponsive">
        				<ul class="navbar-nav navbar-sidenav">
-       					<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="網路拓樸">
+       					<li class="nav-item" data-toggle="tooltip" data-placement="right" title="網路拓樸">
 						<a class="nav-link" href="index.html">
 							<i class="fa fa-fw fa-sitemap"></i>
               						<span class="nav-link-text">網路拓樸</span>
@@ -34,7 +40,7 @@
               						<span class="nav-link-text">總流量列表</span>
            					</a>
           				</li>
-          				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="設定">
+          				<li class="nav-item active" data-toggle="tooltip" data-placement="right" title="設定">
             					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents">
               						<i class="fa fa-fw fa-wrench"></i>
               						<span class="nav-link-text">限制流量</span>
@@ -47,10 +53,10 @@
                 						<a href="flowlimit.html">控制流速</a>
               						</li>
               						<li>
-                						<a href="http://kshih.logdown.com/">Blog</a>
+                						<a href="#">Blank Page</a>
               						</li>
               						<li>
-                						<a href="#">約嗎0958616569</a>
+                						<a href="#">Login Page</a>
               						</li>
       						</ul>
       					</li>
@@ -95,11 +101,37 @@
 				<div style="height: 70px;"></div>
 					<div class="card mb-3">
           					<div class="card-header">
-							<i class="fa fa-fw fa-sitemap"></i>
-							網路拓樸
+							<i class="fa fa-fw fa-wrench"></i>
+							每日流量上限
           					</div>
           					<div class="card-body">
-							<svg class="topo" id="topology" style="height: 600px;width: 100%;"></svg>
+							<div class="input-group multi-control-group col-md-3">
+								<form class="bs-example bs-example-form" role="form" action="everydaylimit.php" method="get">
+									<div class="input-group input-group-lg">
+										<span class="input-group-addon">Port1</span>
+										<input type=number min=0 max=20 class="form-control" name=limit1>
+										<span class="input-group-addon">G</span>
+									</div>
+									<div style="height: 20px;"></div>
+									<div class="input-group input-group-lg">
+                                                                                <span class="input-group-addon">Port2</span>
+                                                                                <input type=number min=0 max=20 class="form-control" name=limit2>
+										<span class="input-group-addon">G</span>
+                                                                        </div>
+									<div style="height: 20px;"></div>
+									<div class="input-group input-group-lg">
+                                                                                <span class="input-group-addon">Port3</span>
+                                                                                <input type=number min=0 max=20 class="form-control" name=limit3>
+										<span class="input-group-addon">G</span>
+                                                                        </div>
+									<div style="height: 20px;"></div>
+									<div class="input-group input-group-lg">
+										<span class="input-group-btn">
+                                                                                        <input class="btn btn-primary" type="submit" value="Ok">
+                                                                        	</span>
+									</div>
+								</form>
+							</div>
           					</div>
 						<div class="card-footer small text-muted">
                                                 </div>
@@ -116,6 +148,7 @@
 		<script src="vendor/jquery/jquery.min.js"></script>
     		<script src="vendor/popper/popper.min.js"></script>
     		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     		<!-- Plugin JavaScript -->
     		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -125,6 +158,5 @@
 		
     		<!-- Custom scripts for this template -->
     		<script src="js/sb-admin.min.js"></script>
-		<script src="topo.js"></script>
 	</body>
 </html>
