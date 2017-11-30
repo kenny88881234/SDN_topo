@@ -15,7 +15,7 @@ curl_setopt($curl, CURLOPT_URL, $service_url);
 curl_setopt($curl, CURLOPT_HTTPHEADER, $header );
  
 $curl_post_data = array(
-    'priority' => '1',
+    'priority' => '2',
     'match' => array('nw_dst' => $ip1 . '.' . $ip2 . '.' . $ip3 . '.' . $ip4),
     'actions' => array('queue' => $select)
 );
