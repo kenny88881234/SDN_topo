@@ -8,7 +8,7 @@ $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 mysqli_query("SET NAMES 'UTF8'");
 
-$sql = "Select * From total_flow_data";
+$sql = "Select * From total_flow_data order by time desc limit 10";
 
 $result = mysqli_query($conn, $sql);
 

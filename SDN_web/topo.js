@@ -7,16 +7,36 @@ var allSVGElem = {};
 var svg = d3.select('#topology')
                    .attr("width", width)
                    .attr("height", height);
+var i, j;
 var d3_nodes = [],
     d3_links = [],
-    port_data = [];
+    sta_data = [3];
 
+for (i=0;i<3;i++) {
+    sta_data[i] = [5];
+    for(j=0;j<5;j++) {
+        sta_data[i][j] = new Object;
+    }
+}
 var tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(function(d) {
 	if(d.type === 'h') {
-	    return "<strong>port_no:</strong> <span style='color:red'>" + d.port.port_no + "</span>" + "<strong> ip:</strong> <span style='color:red'>" + d.ipv4 + "</span>" + "<strong>tx_flow:</strong> <span style='color:red'>" + d.port_data.tx_flow + "</span>";
+	    if(d.sta_data.flag == '1') {
+		if(d.sta_data.limitnum == '1') {
+	    	    return "<strong> Port : </strong> <span style='line-height: 15px;'>" + String(Number(d.port.port_no)-1) + "</span><br>" + "<strong> Ip : </strong> <span style='line-height: 50px;'>" + d.ipv4 + "</span><br>" + "<strong> 流速 : </strong> <span>" + d.speed + "</span><span style='line-height: 20px;'> Mb/s</span><br>" + "<strong> 總流量 : </strong> <span>" + d.totalflow + "</span><span style='line-height: 50px;'> G</span><br>" + "<strong style='color:red'> 已限制</strong> <span style='color:red'>" + "<strong style='color:red'> ( </strong> <span style='color:red'>12MB/s</span><strong style='color:red'ne-height: 30px;> ) </strong><br>";
+		}
+		if(d.sta_data.limitnum == '2') {
+                    return "<strong> Port : </strong> <span style='line-height: 15px;'>" + String(Number(d.port.port_no)-1) + "</span><br>" + "<strong> Ip : </strong> <span style='line-height: 50px;'>" + d.ipv4 + "</span><br>" + "<strong> 流速 : </strong> <span>" + d.speed + "</span><span style='line-height: 20px;'> Mb/s</span><br>" + "<strong> 總流量 : </strong> <span>" + d.totalflow + "</span><span style='line-height: 50px;'> G</span><br>" + "<strong style='color:red'> 已限制</strong> <span style='color:red'>" + "<strong style='color:red'> ( </strong> <span style='color:red'>8MB/s</span><strong style='color:red'ne-height: 30px;> ) </strong><br>";
+                }
+		if(d.sta_data.limitnum == '3') {
+                    return "<strong> Port : </strong> <span style='line-height: 15px;'>" + String(Number(d.port.port_no)-1) + "</span><br>" + "<strong> Ip : </strong> <span style='line-height: 50px;'>" + d.ipv4 + "</span><br>" + "<strong> 流速 : </strong> <span>" + d.speed + "</span><span style='line-height: 20px;'> Mb/s</span><br>" + "<strong> 總流量 : </strong> <span>" + d.totalflow + "</span><span style='line-height: 50px;'> G</span><br>" + "<strong style='color:red'> 已限制</strong> <span style='color:red'>" + "<strong style='color:red'> ( </strong> <span style='color:red'>斷線</span><strong style='color:red'ne-height: 30px;> ) </strong><br>";
+                }
+	    }
+	    else {
+		    return "<strong> Port : </strong> <span style='line-height: 15px;'>" + String(Number(d.port.port_no)-1) + "</span><br>" + "<strong> Ip : </strong> <span style='line-height: 50px;'>" + d.ipv4 + "</span><br>" + "<strong> 流速 : </strong> <span>" + d.speed + "</span><span style='line-height: 20px;'> Mb/s</span><br>" + "<strong> 總流量 : </strong> <span>" + d.totalflow + "</span><span style='line-height: 50px;'> G</span><br>" + "<strong style='color:green'> 未限制</strong>";
+	    }
 	} else if(d.type === 's') {
 	    return "<strong>Switch</strong>";
 	}
@@ -129,7 +149,7 @@ function forceTick(e) {
         });
 }
 
-function loadMonitorData(err, monitordata) {
+function loadStatusData(err, statusdata) {
 
         if (err) {
                 console.log(err);
@@ -137,16 +157,19 @@ function loadMonitorData(err, monitordata) {
                 return;
         }
 
-        var index;
+        var i,j;
 
-        var p_data = monitordata;
-	port_data = [];
+        var status_data = statusdata;
 
-        for (index = 0; index < monitordata.length; index++) {
-            p_data[index].type = 'p';
-	    port_data.push(p_data[index]);
+        for (i = 1; i < 2; i++) {
+	    for(j = 1; j < 4; j++) {
+            //status_data.1.String(index).type = 'p';
+	    	sta_data[i][j+1].limitnum = status_data[String(i)][String(j)].limitnum;
+		sta_data[i][j+1].flag = status_data[String(i)][String(j)].flag;
+	    }
         }
 	console.log("success!");
+	console.log(sta_data);
 }
 
 function loadData(err, data) {
@@ -158,7 +181,7 @@ function loadData(err, data) {
     	}
 
     	var index;
-	var j;
+	var i,j;
 
         var switches = data.switch,
             links = data.link,
@@ -170,84 +193,108 @@ function loadData(err, data) {
             switches[index].type = 's';
             d3_nodes.push(switches[index]);
         }
+	
+	var flow_data = new Array(3); //建立空的資料陣列
+	for(i=0;i<3;i++) {
+    	    flow_data[i] = new Array(5);
+    	    for(j=0;j<5;j++) {
+        	flow_data[i][j] = [];
+    	    }
+	}
+ 
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+    	    if (this.readyState == 4 && this.status == 200) {
+        	var total_data = JSON.parse(this.responseText);
+        	for(i=0;i<total_data.length;i++) {
+            	    flow_data[total_data[i].dpid][total_data[i].port_no].push({"num" : Number(total_data[i].speed_flow), "num2" : Number(total_data[i].tx_flow) + Number(total_data[i].rx_flow)});
+        	}
+console.log(flow_data);
+		for (index = 0; index < hosts.length; index++) {
+            	    hosts[index].type = 'h';
+            	    for (i=1;i<3;i++) {
+                	for (j = 2; j < 5; j++) {
+                    	    if(i == Number(hosts[index].port.dpid) && j == Number(hosts[index].port.port_no) && sta_data[i][j].hasOwnProperty('flag')){
+                        	hosts[index].sta_data = new Object;
+                        	hosts[index].sta_data.flag = sta_data[i][j].flag;
+                        	hosts[index].sta_data.limitnum = sta_data[i][j].limitnum;
+                        	hosts[index].speed = String(Number(flow_data[i][j][flow_data[i][j].length-1].num)/1000000);
+                        	hosts[index].totalflow = String(Number(flow_data[i][j][flow_data[i][j].length-1].num2)/1000000000);
+                    	    }
+                	}
+            	    }
+            	    // get index of host before push it.
+            	    var host_index = d3_nodes.length,
+                    switch_index = searchSwitchIndex(hosts[index].port.dpid, d3_nodes);
+            	    d3_nodes.push(hosts[index]);
 
-        for (index = 0; index < hosts.length; index++) {
-            hosts[index].type = 'h';
-	    console.log(port_data.length);
-	    for (j = 0; j < port_data.length; j++) {
-		if(Number(port_data[j].port_no) == Number(hosts[index].port.port_no)){
-		    hosts[index].port_data = port_data[j];
-		}
-	    }
-            // get index of host before push it.
-            var host_index = d3_nodes.length,
-                switch_index = searchSwitchIndex(hosts[index].port.dpid, d3_nodes);
-            d3_nodes.push(hosts[index]);
+            	    // add host to switch link.
+            	    d3_links.push({source: host_index, target: switch_index, type: 'h'});
+        	}
+		console.log(d3_nodes);
+		for (index = 0; index < links.length; index++) {
+                    var src_dpid = links[index].src.dpid,
+                    dst_dpid = links[index].dst.dpid,
+                    src_index = searchSwitchIndex(src_dpid, d3_nodes),
+                    dst_index = searchSwitchIndex(dst_dpid, d3_nodes);
+            	    if (!linkExist(src_index, dst_index, d3_links)) {
+                	d3_links.push({source: src_index, target: dst_index, type: 's'});
+            	    }
+        	}
+        	force.nodes(d3_nodes)
+             	     .links(d3_links)
+                     .start();
+        	force.on('tick', forceTick);
 
-            // add host to switch link.
-            d3_links.push({source: host_index, target: switch_index, type: 'h'});
-        }
-	console.log(d3_nodes);
-	for (index = 0; index < links.length; index++) {
-                var src_dpid = links[index].src.dpid,
-		dst_dpid = links[index].dst.dpid,
-                src_index = searchSwitchIndex(src_dpid, d3_nodes),
-                dst_index = searchSwitchIndex(dst_dpid, d3_nodes);
-            if (!linkExist(src_index, dst_index, d3_links)) {
-                d3_links.push({source: src_index, target: dst_index, type: 's'});
-            }
-        }
-	force.nodes(d3_nodes)
-	     .links(d3_links)
-             .start();
-        force.on('tick', forceTick);
-
-        allSVGElem.links = svg.selectAll('.link')
-            .data(d3_links)
-            .enter()
-            .append('line')
-            .attr('class', 'link')
-            .style("stroke-width", function (d) {
-                if (d.type === 'c') {
-                    return 5;
-                } else {
-                    return 3;
-                }
-            })
-            .style("stroke", function (d) {
-                if (d.type === 'h') {
-                    // host to switch link
-                    return '#F00';
-                } else if (d.type === 's') {
-                    // switch to switch link
-                    return '#00F';
-                }
-            });
-
-        allSVGElem.nodes = svg.selectAll('.node')
-            .data(d3_nodes)
-            .enter()
-            .append('circle')
-            .attr('fill', function (d) {
-                if (d.type === 's') {
-                    return '#05A';
-                } else {
-                    return '#090';
-                }
-            })
-	    .attr('r', function (d) {
-                if (d.type === 's') {
-                    return '20';
-                } else {
-                    return '15';
-                }
-            })
-            .attr('class', 'node')
-            .on("dblclick", function(d) { d3.select(this).classed("fixed", d.fixed = true); })
-            .on('mouseover', tip.show)
-	    .on('mouseout', tip.hide)
-	    .call(force.drag)
-	    .call(tip);
+        	allSVGElem.links = svg.selectAll('.link')
+            		  .data(d3_links)
+            		  .enter()
+            	  	  .append('line')
+            		  .attr('class', 'link')
+            		  .style("stroke-width", function (d) {
+                		if (d.type === 'c') {
+                    		    return 5;
+                		} else {
+                    		    return 3;
+                		}
+            		  })
+            		  .style("stroke", function (d) {
+                		if (d.type === 'h') {
+                    		    // host to switch link
+                    		    return '#F00';
+                		} else if (d.type === 's') {
+                    		    // switch to switch link
+                    		    return '#00F';
+                		}
+            		  });
+		allSVGElem.nodes = svg.selectAll('.node')
+            		  .data(d3_nodes)
+            		  .enter()
+            		  .append('circle')
+            		  .attr('fill', function (d) {
+                		if (d.type === 's') {
+                    		    return '#05A';
+                		} else {
+                    		    return '#090';
+                		}
+            		  })
+            		  .attr('r', function (d) {
+                		if (d.type === 's') {
+                    		    return '20';
+                		} else {
+                    		    return '15';
+                		}
+            		  })
+            		  .attr('class', 'node')
+            		  .on("dblclick", function(d) { d3.select(this).classed("fixed", d.fixed = true); })
+            		  .on('mouseover', tip.show)
+            		  .on('mouseout', tip.hide)
+            		  .call(force.drag)
+            		  .call(tip);
+    	    }
+	}
+    xmlhttp.open("GET", "getlittleflowdata.php", true);
+    xmlhttp.send();
 }
 
 function myrefresh()
@@ -278,9 +325,9 @@ function myrefresh()
               .friction(0.7)
               .theta(0.3)
               .size([width, height]);
-    d3.json('monitor_port_data.json', loadMonitorData);
+    d3.json('everydaylimit.json', loadStatusData);
     d3.json('topo_data.json', loadData);
 }
-d3.json('monitor_port_data.json', loadMonitorData);
+d3.json('everydaylimit.json', loadStatusData);
 d3.json('topo_data.json', loadData);
 setInterval('myrefresh()',30000);

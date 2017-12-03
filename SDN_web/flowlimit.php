@@ -19,6 +19,9 @@ $content = json_decode($content);
 fclose($myfile);
 
 $myfile = fopen("everydaylimit.json", "w") or die("Unable to open file!");
+
+$content->$s->$p->limitnum = $select;
+
 if($select == '0') {
     $content->$s->$p->flag = '0';
 }

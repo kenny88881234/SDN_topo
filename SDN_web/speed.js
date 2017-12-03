@@ -1,4 +1,3 @@
-var data = [6];
 var i;
 
 var gaugeOptions = {
@@ -59,7 +58,7 @@ var gaugeOptions = {
 var chartSpeed_2 = Highcharts.chart('container-speed2', Highcharts.merge(gaugeOptions, {
     yAxis: {
         min: 0,
-        max: 10,
+        max: 40,
         title: {
             text: 'Port1'
         }
@@ -87,7 +86,7 @@ var chartSpeed_2 = Highcharts.chart('container-speed2', Highcharts.merge(gaugeOp
 var chartSpeed_3 = Highcharts.chart('container-speed3', Highcharts.merge(gaugeOptions, {
     yAxis: {
         min: 0,
-        max: 10,
+        max: 40,
         title: {
             text: 'Port2'
         }
@@ -115,7 +114,7 @@ var chartSpeed_3 = Highcharts.chart('container-speed3', Highcharts.merge(gaugeOp
 var chartSpeed_4 = Highcharts.chart('container-speed4', Highcharts.merge(gaugeOptions, {
     yAxis: {
         min: 0,
-        max: 10,
+        max: 40,
         title: {
             text: 'Port3'
         }
@@ -140,93 +139,64 @@ var chartSpeed_4 = Highcharts.chart('container-speed4', Highcharts.merge(gaugeOp
 
 }));
 
-var chartSpeed_wifi = Highcharts.chart('container-speedwifi', Highcharts.merge(gaugeOptions, {
-    yAxis: {
-        min: 0,
-        max: 10,
-        title: {
-            text: 'Wifi'
-        }
-    },
-
-    credits: {
-        enabled: false
-    },
-
-    series: [{
-        name: 'Speed',
-        data: [0],
-        dataLabels: {
-            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.3f}</span><br/>' +
-                   '<span style="font-size:12px;color:silver">Mb/sec</span></div>'
-        },
-        tooltip: {
-            valueSuffix: ' Mb/sec'
-        }
-    }]
-
-}));
-
 setInterval(function () {
-    // Speed
-    $.getJSON("monitor_port_data.json", function( json ) {
-        for(i=0;i<json.length;i++) {
-            data[i] = json[i];
-        }
-    });
-    console.log(data[2].tx_flow);
-
-    var point,
-        newVal,
-        inc;
-
-    if (chartSpeed_2) {
-        point = chartSpeed_2.series[0].points[0];
-        inc = (Number(data[1].tx_flow) + Number(data[1].rx_flow))/1000000;
-        newVal = inc;
-
-        if (newVal < 0 || newVal > 20) {
-            newVal = 0;
-        }
-
-        point.update(newVal);
+    var data = new Array(5); //建立空的資料陣列
+    for(i=0;i<5;i++) {
+    	data[i] = new Array(5);
+    	for(j=0;j<5;j++) {
+            data[i][j] = [];
+    	}
     }
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var total_data = JSON.parse(this.responseText);
+            for(i=0;i<total_data.length;i++) {
+            	data[total_data[i].dpid][total_data[i].port_no].push({"num" : Number(total_data[i].speed_flow)});
+            }
+	    var point,
+	        newVal,
+        	inc;
 
-    if (chartSpeed_3) {
-        point = chartSpeed_3.series[0].points[0];
-        inc = (Number(data[2].tx_flow) + Number(data[2].rx_flow))/1000000;
-        newVal = inc;
+    	    if (chartSpeed_2) {
+        	point = chartSpeed_2.series[0].points[0];
+        	inc = (Number(data[1][2][data[1][2].length-1].num)/1000000);
+        	newVal = inc;
 
-        if (newVal < 0 || newVal > 20) {
-            newVal = 0;
-        }
+            	if (newVal < 0 || newVal > 40) {
+            	    newVal = 0;
+            	}
 
-        point.update(newVal);
+            	    point.update(newVal);
+    	    }
+
+            if (chartSpeed_3) {
+        	point = chartSpeed_3.series[0].points[0];
+        	inc = (Number(data[1][3][data[1][3].length-1].num)/1000000);
+        	newVal = inc;
+
+            	if (newVal < 0 || newVal > 40) {
+            	    newVal = 0;
+            	}
+
+            	    point.update(newVal);
+    	    }
+
+    	    if (chartSpeed_4) {
+        	point = chartSpeed_4.series[0].points[0];
+        	inc = (Number(data[1][4][data[1][4].length-1].num)/1000000);
+        	newVal = inc;
+
+            	if (newVal < 0 || newVal > 40) {
+            	    newVal = 0;
+            	}
+
+            	point.update(newVal);
+            }
+	}
     }
+    xmlhttp.open("GET", "getlittleflowdata.php", true);
+    xmlhttp.send();
+    console.log(data);
 
-    if (chartSpeed_4) {
-        point = chartSpeed_4.series[0].points[0];
-        inc = (Number(data[3].tx_flow) + Number(data[3].rx_flow))/1000000;
-        newVal = inc;
-
-        if (newVal < 0 || newVal > 20) {
-            newVal = 0;
-        }
-
-        point.update(newVal);
-    }
-
-    if (chartSpeed_wifi) {
-        point = chartSpeed_wifi.series[0].points[0];
-        inc = (Number(data[4].tx_flow) + Number(data[4].rx_flow))/1000000;
-        newVal = inc;
-
-        if (newVal < 0 || newVal > 20) {
-            newVal = 0;
-        }
-
-        point.update(newVal);
-    }
-
-}, 2000);
+}, 500);
