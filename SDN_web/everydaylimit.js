@@ -11,10 +11,10 @@ function myrefresh() {
 		    }
 		    else {
 			if(json[String(i)][String(j)].limitnum == '1') {
-			    limitnum = "12Mb/s";
+			    limitnum = "8Mb/s";
 			}
 			if(json[String(i)][String(j)].limitnum == '2') {
-                            limitnum = "8Mb/s";
+                            limitnum = "2Mb/s";
                         }
 			if(json[String(i)][String(j)].limitnum == '3') {
                             limitnum = "斷線";
